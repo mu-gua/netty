@@ -90,9 +90,8 @@ public final class CleartextHttp2ServerUpgradeHandler extends ChannelHandlerAdap
                    .remove(httpServerUpgradeHandler);
 
                 ctx.pipeline().addAfter(ctx.name(), null, http2ServerHandler);
-                ctx.pipeline().remove(this);
-
                 ctx.fireUserEventTriggered(PriorKnowledgeUpgradeEvent.INSTANCE);
+                ctx.pipeline().remove(this);
             }
         }
     }

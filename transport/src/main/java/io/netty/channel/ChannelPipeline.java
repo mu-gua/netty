@@ -348,6 +348,15 @@ public interface ChannelPipeline
     ChannelHandler removeLast();
 
     /**
+     * Removes all {@link ChannelHandler}s of this pipeline. Starting from the last handler.
+     * Calling this method has the same effect as calling {@link #removeLast()} until there is no
+     * {@link ChannelHandler} left in the {@link ChannelPipeline}.
+     *
+     * @return self
+     */
+    ChannelPipeline removeAll();
+
+    /**
      * Replaces the specified {@link ChannelHandler} with a new handler in this pipeline.
      *
      * @param  oldHandler    the {@link ChannelHandler} to be replaced

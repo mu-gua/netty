@@ -781,6 +781,10 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                     if (registered) {
                         registered = false;
                         pipeline.fireChannelUnregistered();
+
+                        if (!isOpen()) {
+                            pipeline.removeAll();
+                        }
                     }
                     safeSetSuccess(promise);
                 }
