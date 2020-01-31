@@ -137,6 +137,9 @@ public final class ChannelOutboundBuffer {
         // where added in the meantime.
         //
         // See https://github.com/netty/netty/issues/2577
+
+        // Todo  这一块需要深入理解一下
+
         Entry entry = unflushedEntry;
         if (entry != null) {
             if (flushedEntry == null) {

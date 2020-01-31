@@ -498,6 +498,8 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                     continue;
                 }
 
+                System.out.println("*******************"+ Thread.currentThread().getName() + "********************");
+
                 cancelledKeys = 0;
                 needsToSelectAgain = false;
                 final int ioRatio = this.ioRatio;
