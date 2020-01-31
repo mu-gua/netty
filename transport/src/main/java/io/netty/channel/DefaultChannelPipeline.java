@@ -766,20 +766,12 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
     @Override
     public ChannelHandler removeLast() {
-        ChannelHandler handler = removeLastSafe();
-        if (handler == null) {
-            throw new NoSuchElementException();
-        }
-        return handler;
-    }
-
-    private ChannelHandler removeLastSafe() {
         final DefaultChannelHandlerContext ctx;
         EventExecutor executor = executor();
         boolean inEventLoop = executor.inEventLoop();
         synchronized (handlers) {
             if (handlers.isEmpty()) {
-                return null;
+                throw new NoSuchElementException();
             }
             int idx = handlers.size() - 1;
 
@@ -856,27 +848,6 @@ public class DefaultChannelPipeline implements ChannelPipeline {
     @Override
     public final ChannelPipeline fireChannelUnregistered() {
         head.invokeChannelUnregistered();
-        return this;
-    }
-
-    @Override
-    public ChannelPipeline removeAll() {
-        EventExecutor executor = executor();
-        if (executor.inEventLoop()) {
-            DefaultChannelHandlerContext ctx = this.tail.prev;
-            while (ctx != head) {
-                synchronized (handlers) {
-                    handlers.remove(ctx);
-                }
-                DefaultChannelHandlerContext prev = ctx.prev;
-                remove0(ctx);
-                ctx = prev;
-            }
-        } else {
-            while (removeLastSafe() != null) {
-                // Remove all handlers until none is left.
-            }
-        }
         return this;
     }
 
